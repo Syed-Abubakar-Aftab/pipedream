@@ -22,7 +22,7 @@ export default {
     },
     async updateSignature(signature, email) {
       return this._client().users.settings.sendAs.patch({
-        userId: "me",
+        userId: email,
         sendAsEmail: email,
         requestBody: {
           signature,
