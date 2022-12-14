@@ -6,7 +6,7 @@ export default {
   key: "gmail_custom_oauth-update-signature",
   name: "Update Signature",
   description: `Update the signature for a specific email address. [See the docs](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gmail,
