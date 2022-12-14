@@ -1,4 +1,5 @@
 import gmail from "../../gmail_custom_oauth.app.mjs";
+import googleCloud from "../../../google_cloud/google_cloud.app.mjs";
 
 const docLink = "https://developers.google.com/gmail/api/reference/rest/v1/users.settings.sendAs/patch";
 
@@ -10,6 +11,7 @@ export default {
   type: "action",
   props: {
     gmail,
+    googleCloud,
     signature: {
       type: "string",
       label: "Signature",
@@ -24,7 +26,12 @@ export default {
   },
   async run({ $ }) {
     if (!this.email) this.email = (await this.gmail.userInfo()).email;
-    const response = await this.gmail.updateSignature(this.signature, this.email);
+    /**
+     * Get Service Account credentials from connected Google Cloud account
+     * Service Account needs to have domain-wide delegation enabled
+    */
+    const credentials = this.googleCloud.authKeyJson();
+    const response = await this.gmail.updateSignature(credentials, this.signature, this.email);
     $.export("$summary", "Successfully updated signature");
     return response;
   },
